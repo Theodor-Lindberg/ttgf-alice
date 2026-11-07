@@ -2,7 +2,7 @@
 # See https://docs.cocotb.org/en/stable/quickstart.html for more info
 
 # List your source files here:
-SOURCE_FILES = sqrt_rom.vhdl exp_rom.vhdl log_rom.vhdl project.vhdl
+SOURCE_FILES = sqrt_rom.vhdl exp_rom.vhdl log_rom.vhdl sine_rom.vhdl project.vhdl
 
 # Toplevel name of your VHDL project
 COCOTB_TOPLEVEL = tt_um_alice

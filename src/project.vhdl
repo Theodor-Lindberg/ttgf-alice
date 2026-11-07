@@ -37,6 +37,13 @@ architecture rtl of tt_um_alice is
         );
     end component;
 
+    component sine_rom is
+        port (
+            address : in  std_logic_vector(7 downto 0);
+            data    : out std_logic_vector(7 downto 0)
+        );
+    end component;
+
     signal number1 : unsigned(7 downto 0); -- 0 - 255
     signal operator : std_logic_vector(2 downto 0);
     signal enter : std_logic_vector(1 downto 0);
@@ -44,13 +51,14 @@ architecture rtl of tt_um_alice is
     signal sqrt_data : std_logic_vector(7 downto 0);
     signal exp_data  : std_logic_vector(7 downto 0);
     signal log_data  : std_logic_vector(7 downto 0);
+    signal sine_data  : std_logic_vector(7 downto 0);
 begin
     -- operator:
     --    000     No operator      ok
     --    001     Plus             ok
     --    010     Minus            ok
     --    011     Multiplication   ok
-    --    100     Division         ok
+    --    100     (sin(x)+1)*255/2 ok
     --    101     sqrt(x)
     --    110     e^(x)
     --    111     loge(x)
@@ -86,6 +94,11 @@ begin
             address => std_logic_vector(number1),
             data    => log_data
         );
+    sine_lookup : sine_rom
+        port map (
+            address => std_logic_vector(number1),
+            data    => sine_data
+        );
 
     process(clk, rst_n) begin
         if rst_n = '0' then
@@ -108,6 +121,8 @@ begin
                         number1 <= unsigned(exp_data);
                     elsif uio_in(3 downto 1) = "111" then -- loge(x)
                         number1 <= unsigned(log_data);
+                    elsif uio_in(3 downto 1) = "100" then -- (sin(x)+1)*255/2
+                        number1 <= unsigned(sine_data);
                     else
                         operator <= uio_in(3 downto 1);
                     end if;
@@ -120,8 +135,6 @@ begin
                         number1 <= number1 - unsigned(ui_in);
                     elsif operator = "011" then -- Multiplication
                         number1 <= resize(number1 * unsigned(ui_in), 8);
-                    elsif operator = "100" then -- Division
-                        number1 <= to_unsigned(0, 8);--resize(number1 / unsigned(ui_in), 8);
                     else
                         uio_out <= "10000000";
                     end if;

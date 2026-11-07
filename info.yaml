@@ -5,7 +5,7 @@ project:
   discord:      ""      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
   description:  "Projekt"      # One line description of what your project does
   language:     "VHDL"  # other examples include Verilog, SystemVerilog, Amaranth, etc
-  clock_hz:     10       # Clock frequency in Hz (or 0 if not applicable)
+  clock_hz:     10000000       # Clock frequency in Hz (or 0 if not applicable)
 
   # How many tiles your design occupies? A single tile is about 340x160 uM.
   tiles: "1x1"          # Valid values: 1x1, 1x2, 2x2, 3x2, 4x2, 3x4 or 4x4
@@ -23,6 +23,7 @@ project:
     - "sqrt_rom.vhdl"
     - "exp_rom.vhdl"
     - "log_rom.vhdl"
+    - "sine_rom.vhdl"
     - "project.vhdl"
 
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.

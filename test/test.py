@@ -96,7 +96,7 @@ async def test_squareroot(dut):
 
 @cocotb.test()
 async def test_exp(dut):
-    """Enter 16, then square root; the displayed result should be 4."""
+    """Enter 2, then exp(x); the displayed result should be 7."""
     await start_test(dut)
     await press_enter(dut, 2)
     await press_enter(dut, 0, operator=0b110)
@@ -104,8 +104,16 @@ async def test_exp(dut):
 
 @cocotb.test()
 async def test_loge(dut):
-    """Enter 16, then square root; the displayed result should be 4."""
+    """Enter 54, then loge; the displayed result should be 4."""
     await start_test(dut)
-    await press_enter(dut, 55)
+    await press_enter(dut, 54)
     await press_enter(dut, 0, operator=0b111)
     assert int(dut.uo_out.value) == 4
+
+@cocotb.test()
+async def test_sine(dut):
+    """Enter 54, then sine; the displayed result should be 206."""
+    await start_test(dut)
+    await press_enter(dut, 54)
+    await press_enter(dut, 0, operator=0b100)
+    assert int(dut.uo_out.value) == 206

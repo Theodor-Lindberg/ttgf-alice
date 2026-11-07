@@ -10,11 +10,8 @@ def save_lookup(arr):
 
 def gen_lookups():
     inputs = np.asarray(list(range(256)))
-    sqrt = np.sqrt(inputs)
-    e = np.exp(inputs)
-    loge = np.log(inputs)
-    loge[0] = 0
-    save_lookup(loge)
+    sine = (np.sin(np.pi*inputs/255)+1)*255/2
+    save_lookup(sine)
     
 
 gen_lookups()
