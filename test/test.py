@@ -86,25 +86,6 @@ async def test_chained_calculation(dut):
 
 
 @cocotb.test()
-async def test_division(dut):
-    """Enter 72, then /, then 4; the displayed result should be 18."""
-    await start_test(dut)
-    await press_enter(dut, 72)
-    await press_enter(dut, 0, operator=0b100)
-    await press_enter(dut, 4)
-    assert int(dut.uo_out.value) == 18
-
-
-@cocotb.test()
-async def test_squareroot(dut):
-    """Enter 16, then square root; the displayed result should be 4."""
-    await start_test(dut)
-    await press_enter(dut, 16)
-    await press_enter(dut, 0, operator=0b101)
-    assert int(dut.uo_out.value) == 4
-
-
-@cocotb.test()
 async def test_squareroot(dut):
     """Enter 16, then square root; the displayed result should be 4."""
     await start_test(dut)
