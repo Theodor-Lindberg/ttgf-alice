@@ -94,11 +94,37 @@ async def test_division(dut):
     await press_enter(dut, 4)
     assert int(dut.uo_out.value) == 18
 
-# @cocotb.test()
-# async def test_squareroot(dut):
-#     """Enter 16, then square root; the displayed result should be 4."""
-#     await start_test(dut)
-#     await press_enter(dut, 16)
-#     await press_enter(dut, 0, operator=0b101)
-#     assert int(dut.uo_out.value) == 4
 
+@cocotb.test()
+async def test_squareroot(dut):
+    """Enter 16, then square root; the displayed result should be 4."""
+    await start_test(dut)
+    await press_enter(dut, 16)
+    await press_enter(dut, 0, operator=0b101)
+    assert int(dut.uo_out.value) == 4
+
+
+@cocotb.test()
+async def test_squareroot(dut):
+    """Enter 16, then square root; the displayed result should be 4."""
+    await start_test(dut)
+    await press_enter(dut, 16)
+    await press_enter(dut, 0, operator=0b101)
+    assert int(dut.uo_out.value) == 4
+
+
+@cocotb.test()
+async def test_exp(dut):
+    """Enter 16, then square root; the displayed result should be 4."""
+    await start_test(dut)
+    await press_enter(dut, 2)
+    await press_enter(dut, 0, operator=0b110)
+    assert int(dut.uo_out.value) == 7
+
+@cocotb.test()
+async def test_loge(dut):
+    """Enter 16, then square root; the displayed result should be 4."""
+    await start_test(dut)
+    await press_enter(dut, 55)
+    await press_enter(dut, 0, operator=0b111)
+    assert int(dut.uo_out.value) == 4

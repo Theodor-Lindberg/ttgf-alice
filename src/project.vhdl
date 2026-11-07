@@ -20,13 +20,16 @@ architecture rtl of tt_um_alice is
     signal operator : std_logic_vector(2 downto 0);
     signal enter : std_logic_vector(1 downto 0);
     signal has_number : std_logic;
+    signal sqrt_data : std_logic_vector(7 downto 0);
+    signal exp_data  : std_logic_vector(7 downto 0);
+    signal log_data  : std_logic_vector(7 downto 0);
 begin
     -- operator:
     --    000     No operator      ok
     --    001     Plus             ok
     --    010     Minus            ok
     --    011     Multiplication   ok
-    --    100     Division
+    --    100     Division         ok
     --    101     sqrt(x)
     --    110     e^(x)
     --    111     loge(x)
@@ -45,6 +48,24 @@ begin
     enter(0) <= uio_in(0);
     uio_oe <= "10000000"; -- 0 = insignal
 
+    sqrt_lookup : entity work.sqrt_rom
+        port map (
+            address => std_logic_vector(number1),
+            data    => sqrt_data
+        );
+
+    exp_lookup : entity work.exp_rom
+        port map (
+            address => std_logic_vector(number1),
+            data    => exp_data
+        );
+
+    log_lookup : entity work.log_rom
+        port map (
+            address => std_logic_vector(number1),
+            data    => log_data
+        );
+
     process(clk, rst_n) begin
         if rst_n = '0' then
             operator <= "000";
@@ -59,14 +80,16 @@ begin
                     has_number <= '1';
                     number1 <= unsigned(ui_in);
                 elsif operator = "000" and has_number = '1' then
-                    -- -- Either to the operation directly, or assign the operator
-                    -- if operator = "101" then -- sqrt(x)
-                    --     number1 <= to_unsigned(integer(SQRT(real(to_integer(number1)))), 8);
-                    -- elsif operator = "110" then -- e^(x)
-                    -- elsif operator = "111" then -- loge(x)
-                    -- else
-                    operator <= uio_in(3 downto 1);
-                    --end if;
+                    -- Either to the operation directly, or assign the operator
+                    if uio_in(3 downto 1) = "101" then -- sqrt(x)
+                        number1 <= unsigned(sqrt_data);
+                    elsif uio_in(3 downto 1) = "110" then -- e^(x)
+                        number1 <= unsigned(exp_data);
+                    elsif uio_in(3 downto 1) = "111" then -- loge(x)
+                        number1 <= unsigned(log_data);
+                    else
+                        operator <= uio_in(3 downto 1);
+                    end if;
                 else
                     -- Update number, reset operator
                     operator <= "000";

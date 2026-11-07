@@ -20,6 +20,9 @@ project:
   # WARNING: VHDL support in Tiny Tapeout is experimental. The template may get changes during
   #          the shuttle and VHDL support may be dropped for future shuttles if we see low usage.
   source_files:
+    - "sqrt_rom.vhdl"
+    - "exp_rom.vhdl"
+    - "log_rom.vhdl"
     - "project.vhdl"
 
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
