@@ -30,23 +30,9 @@ Enter is sampled on the rising clock edge. Release it and let it be sampled low 
 
 The sine ROM maps all 256 input addresses to an unsigned, offset sine wave, approximately $y=127.5\left(1+\sin\left(2\pi x/255\right)\right)$, quantized to 8 bits. Thus, the output ranges from about 0 to 255 rather than using signed negative values.
 
-![Sine ROM input/output plot](sine_rom_plot.png)
-
 ## How to test
 
-The Cocotb testbench checks addition, subtraction, multiplication, chained operations, and the square-root, exponential, natural-log, and sine lookups. With GHDL available, run it from the test directory:
-
-```sh
-cd test
-make LIU=yes
-```
-
-To regenerate the sine plot after changing its ROM, install the plotting dependency and run the Python script from the repository root:
-
-```sh
-pip install -r docs/requirements.txt
-python docs/plot_sine_rom.py
-```
+The testbench checks addition, subtraction, multiplication, chained operations, and the square-root, exponential, natural-log, and sine lookups.
 
 ## External hardware
 
