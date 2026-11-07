@@ -71,11 +71,10 @@ begin
 
     -- uio:
     --   idx 0    in, enter
-    --   idx 1-2  in, operator bits
-    --   idx 7    error return
+    --   idx 1-3  in, operator bits
 
     enter(0) <= uio_in(0);
-    uio_oe <= "10000000"; -- 0 = insignal
+    uio_oe <= "00000000"; -- 0 = insignal
 
     sqrt_lookup : sqrt_rom
         port map (
@@ -135,8 +134,6 @@ begin
                         number1 <= number1 - unsigned(ui_in);
                     elsif operator = "011" then -- Multiplication
                         number1 <= resize(number1 * unsigned(ui_in), 8);
-                    else
-                        uio_out <= "10000000";
                     end if;
                 end if;
             elsif enter = "10" then
