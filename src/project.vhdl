@@ -2,9 +2,9 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
-entity tt_um_example is
+entity tt_um_alice is
     port (
-        ui_in   : in  std_logic_vector(7 downto 0);
+        ui_in   : in  std_logic_vector(7 downto 0); -- x7 x6 x5 ... x0 
         uo_out  : out std_logic_vector(7 downto 0);
         uio_in  : in  std_logic_vector(7 downto 0);
         uio_out : out std_logic_vector(7 downto 0);
@@ -13,13 +13,12 @@ entity tt_um_example is
         clk     : in  std_logic;
         rst_n   : in  std_logic
     );
-end tt_um_example;
+end tt_um_alice;
 
-architecture Behavioral of tt_um_example is
+architecture Behavioral of tt_um_alice is
 begin
-
-    uo_out <= std_logic_vector(unsigned(ui_in) + unsigned(uio_in));
+    uo_out <= std_logic_vector(unsigned(ui_in) + unsigned(uio_in)); -- (std_logic_vector)tmp
     uio_out <= "00000000";
-    uio_oe <= "00000000";
+    uio_oe <= "00000000"; -- 0 = insignal
 
 end Behavioral;
