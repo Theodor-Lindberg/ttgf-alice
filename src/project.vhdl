@@ -119,9 +119,9 @@ begin
                     elsif operator = "010" then -- Subtraction
                         number1 <= number1 - unsigned(ui_in);
                     elsif operator = "011" then -- Multiplication
-                        number1 <= resize(number1 * unsigned(ui_in), 8);
+                        number1 <= to_unsigned(0, 8);--resize(number1 * unsigned(ui_in), 8);
                     elsif operator = "100" then -- Division
-                        number1 <= resize(number1 / unsigned(ui_in), 8);
+                        number1 <= to_unsigned(0, 8);--resize(number1 / unsigned(ui_in), 8);
                     else
                         uio_out <= "10000000";
                     end if;
