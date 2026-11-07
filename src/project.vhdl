@@ -17,15 +17,19 @@ end tt_um_alice;
 
 architecture rtl of tt_um_alice is
     signal number1 : unsigned(7 downto 0); -- 0 - 255
-    signal operator : std_logic_vector(1 downto 0);
+    signal operator : std_logic_vector(2 downto 0);
     signal enter : std_logic_vector(1 downto 0);
     signal has_number : std_logic;
 begin
     -- operator:
-    --    00     No operator
-    --    01     Plus
-    --    10     Minus
-    --    11     Multiplication
+    --    000     No operator      ok
+    --    001     Plus             ok
+    --    010     Minus            ok
+    --    011     Multiplication   ok
+    --    100     Division
+    --    101     sqrt(x)
+    --    110     e^(x)
+    --    111     loge(x)
 
     -- enter:
     --    01     Enter just pressed - set to 11 at the end
@@ -43,27 +47,37 @@ begin
 
     process(clk, rst_n) begin
         if rst_n = '0' then
-            operator <= "00";
+            operator <= "000";
             number1 <= to_unsigned(0, 8);
             enter(1) <= '0';
             has_number <= '0';
         elsif rising_edge(clk) then
             if enter = "01" then
                 enter(1) <= '1';
-                if operator = "00" and has_number = '0' then
+                if operator = "000" and has_number = '0' then
                     -- Assign number
                     has_number <= '1';
                     number1 <= unsigned(ui_in);
-                elsif operator = "00" and has_number = '1' then
-                    -- Assign operator
-                    operator <= uio_in(2 downto 1);
+                elsif operator = "000" and has_number = '1' then
+                    -- -- Either to the operation directly, or assign the operator
+                    -- if operator = "101" then -- sqrt(x)
+                    --     number1 <= to_unsigned(integer(SQRT(real(to_integer(number1)))), 8);
+                    -- elsif operator = "110" then -- e^(x)
+                    -- elsif operator = "111" then -- loge(x)
+                    -- else
+                    operator <= uio_in(3 downto 1);
+                    --end if;
                 else
                     -- Update number, reset operator
-                    operator <= "00";
-                    if operator = "01" then
+                    operator <= "000";
+                    if operator = "001" then -- Addition
                         number1 <= number1 + unsigned(ui_in);
-                    elsif operator = "10" then
+                    elsif operator = "010" then -- Subtraction
                         number1 <= number1 - unsigned(ui_in);
+                    elsif operator = "011" then -- Multiplication
+                        number1 <= resize(number1 * unsigned(ui_in), 8);
+                    elsif operator = "100" then -- Division
+                        number1 <= resize(number1 / unsigned(ui_in), 8);
                     else
                         uio_out <= "10000000";
                     end if;

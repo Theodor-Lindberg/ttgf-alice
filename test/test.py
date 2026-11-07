@@ -42,7 +42,7 @@ async def test_addition(dut):
     """Enter 12, then +, then 30; the displayed result should be 42."""
     await start_test(dut)
     await press_enter(dut, 12)
-    await press_enter(dut, 0, operator=0b01)
+    await press_enter(dut, 0, operator=0b001)
     await press_enter(dut, 30)
     assert int(dut.uo_out.value) == 42
 
@@ -52,19 +52,19 @@ async def test_subtraction(dut):
     """Enter 50, then -, then 8; the displayed result should be 42."""
     await start_test(dut)
     await press_enter(dut, 50)
-    await press_enter(dut, 0, operator=0b10)
+    await press_enter(dut, 0, operator=0b010)
     await press_enter(dut, 8)
     assert int(dut.uo_out.value) == 42
 
 
 @cocotb.test()
 async def test_multiplication(dut):
-    """Enter 6, then +, then 7; the displayed result should be 13."""
+    """Enter 6, then *, then 7; the displayed result should be 42."""
     await start_test(dut)
     await press_enter(dut, 6)
-    await press_enter(dut, 0, operator=0b01)
+    await press_enter(dut, 0, operator=0b011)
     await press_enter(dut, 7)
-    assert int(dut.uo_out.value) == 13
+    assert int(dut.uo_out.value) == 42
 
 
 @cocotb.test()
@@ -72,10 +72,33 @@ async def test_chained_calculation(dut):
     """Check that a completed result can be used in the next operation."""
     await start_test(dut)
     await press_enter(dut, 10)
-    await press_enter(dut, 0, operator=0b01)
+    await press_enter(dut, 0, operator=0b001)
     await press_enter(dut, 2)
     assert int(dut.uo_out.value) == 12
 
-    await press_enter(dut, 0, operator=0b10)
+    await press_enter(dut, 0, operator=0b011)
     await press_enter(dut, 3)
-    assert int(dut.uo_out.value) == 9
+    assert int(dut.uo_out.value) == 36
+
+    await press_enter(dut, 0, operator=0b010)
+    await press_enter(dut, 2)
+    assert int(dut.uo_out.value) == 34
+
+
+@cocotb.test()
+async def test_division(dut):
+    """Enter 72, then /, then 4; the displayed result should be 18."""
+    await start_test(dut)
+    await press_enter(dut, 72)
+    await press_enter(dut, 0, operator=0b100)
+    await press_enter(dut, 4)
+    assert int(dut.uo_out.value) == 18
+
+# @cocotb.test()
+# async def test_squareroot(dut):
+#     """Enter 16, then square root; the displayed result should be 4."""
+#     await start_test(dut)
+#     await press_enter(dut, 16)
+#     await press_enter(dut, 0, operator=0b101)
+#     assert int(dut.uo_out.value) == 4
+
