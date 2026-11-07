@@ -16,6 +16,27 @@ entity tt_um_alice is
 end tt_um_alice;
 
 architecture rtl of tt_um_alice is
+    component sqrt_rom is
+        port (
+            address : in  std_logic_vector(7 downto 0);
+            data    : out std_logic_vector(7 downto 0)
+        );
+    end component;
+
+    component exp_rom is
+        port (
+            address : in  std_logic_vector(7 downto 0);
+            data    : out std_logic_vector(7 downto 0)
+        );
+    end component;
+
+    component log_rom is
+        port (
+            address : in  std_logic_vector(7 downto 0);
+            data    : out std_logic_vector(7 downto 0)
+        );
+    end component;
+
     signal number1 : unsigned(7 downto 0); -- 0 - 255
     signal operator : std_logic_vector(2 downto 0);
     signal enter : std_logic_vector(1 downto 0);
@@ -48,19 +69,19 @@ begin
     enter(0) <= uio_in(0);
     uio_oe <= "10000000"; -- 0 = insignal
 
-    sqrt_lookup : entity work.sqrt_rom
+    sqrt_lookup : sqrt_rom
         port map (
             address => std_logic_vector(number1),
             data    => sqrt_data
         );
 
-    exp_lookup : entity work.exp_rom
+    exp_lookup : exp_rom
         port map (
             address => std_logic_vector(number1),
             data    => exp_data
         );
 
-    log_lookup : entity work.log_rom
+    log_lookup : log_rom
         port map (
             address => std_logic_vector(number1),
             data    => log_data
