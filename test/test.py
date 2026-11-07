@@ -116,4 +116,4 @@ async def test_sine(dut):
     await start_test(dut)
     await press_enter(dut, 54)
     await press_enter(dut, 0, operator=0b100)
-    assert int(dut.uo_out.value) == 206
+    assert int(dut.uo_out.value) == 251

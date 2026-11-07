@@ -10,7 +10,7 @@ def save_lookup(arr):
 
 def gen_lookups():
     inputs = np.asarray(list(range(256)))
-    sine = (np.sin(np.pi*inputs/255)+1)*255/2
+    sine = (np.sin(np.pi*2*inputs/255)+1)*255/2
     save_lookup(sine)
     
 
